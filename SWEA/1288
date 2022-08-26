@@ -1,0 +1,31 @@
+#include<iostream>
+
+using namespace std;
+
+int main() {
+    int test_case;
+    int T;
+
+    cin >> T;
+
+    for (test_case = 1; test_case <= T; test_case++) {
+        int N;
+        int num = 0, check = 0;
+
+        cin >> N;
+        while (true) {
+            num += N;
+
+            int tmp = num;
+
+            while (tmp) {
+                check |= 1 << (tmp % 10);
+                tmp /= 10;
+            }
+            if (check == (1 << 10) - 1)
+                break;
+        }
+        cout << "#" << test_case << ' ' << num << "\n";
+    }
+    return 0;
+}
