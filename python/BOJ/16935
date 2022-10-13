@@ -1,0 +1,95 @@
+N, M, R = map(int, input().split())
+arr = [list(map(int, input().split())) for _ in range(N)]
+num_list = list(map(int, input().split()))
+
+
+def rule1(arr):
+    tep = [[0] * M for _ in range(N)]
+    for i in range(N):
+        tep[i] = arr[N - i - 1]
+    return tep
+
+
+def rule2(arr):
+    tep = [[0] * M for _ in range(N)]
+    for i in range(N):
+        for j in range(M):
+            tep[i][j] = arr[i][M - j - 1]
+    return tep
+
+
+def rule3(arr, N, M):
+    tep = [[0] * N for _ in range(M)]
+    for i in range(M):
+        for j in range(N):
+            tep[i][j] = arr[N - j - 1][i]
+    return tep
+
+
+def rule4(arr, N, M):
+    tep = [[0] * N for _ in range(M)]
+    for i in range(M):
+        for j in range(N):
+            tep[i][j] = arr[j][M - i - 1]
+
+    return tep
+
+
+def rule5(arr):
+    tep = [[0] * M for _ in range(N)]
+    for i in range(N // 2):  # 1->2
+        for j in range(M // 2):
+            tep[i][j + M // 2] = arr[i][j]
+
+    for i in range(N // 2):  # 2->3
+        for j in range(M // 2, M):
+            tep[i + N // 2][j] = arr[i][j]
+
+    for i in range(N // 2, N):  # 3->4
+        for j in range(M // 2, M):
+            tep[i][j - M // 2] = arr[i][j]
+
+    for i in range(N // 2, N):  # 4->1
+        for j in range(M // 2):
+            tep[i - N // 2][j] = arr[i][j]
+    return tep
+
+
+def rule6(arr):
+    tep = [[0] * M for _ in range(N)]
+    for i in range(N // 2):  # 1->4
+        for j in range(M // 2):
+            tep[i - N // 2][j] = arr[i][j]
+
+    for i in range(N // 2):  # 2->1
+        for j in range(M // 2, M):
+            tep[i][j - M // 2] = arr[i][j]
+
+    for i in range(N // 2, N):  # 3->2
+        for j in range(M // 2, M):
+            tep[i - N // 2][j] = arr[i][j]
+
+    for i in range(N // 2, N):  # 4->3
+        for j in range(M // 2):
+            tep[i][j + M // 2] = arr[i][j]
+    return tep
+
+
+for num in num_list:
+    if num == 1:
+        arr = rule1(arr)
+    elif num == 2:
+        arr = rule2(arr)
+    elif num == 3:
+        arr = rule3(arr, N, M)
+        N, M = M, N  # 회전하며 크기가 바뀜
+    elif num == 4:
+        arr = rule4(arr, N, M)
+        N, M = M, N  # 회전하며 크기가 바뀜
+    elif num == 5:
+        arr = rule5(arr)
+    else:
+        arr = rule6(arr)
+
+for i in arr:
+    print(*i)
