@@ -1,0 +1,40 @@
+from collections import deque
+
+
+def rotate(R, N, M, arr):
+    q = deque()
+    w, h = M, N  # 안으로 들어갈 때 크기 점점 줄여줘야함
+    cnt = min(N, M) // 2
+    x, y = 0, 0
+
+    while cnt > 0:
+        for i in range(w - 1):
+            q.append(arr[y][x + i])
+        for i in range(h - 1):
+            q.append(arr[y + i][x + w - 1])
+        for i in range(w - 1):
+            q.append(arr[y + h - 1][x + w - 1 - i])
+        for i in range(h - 1):
+            q.append(arr[y + h - 1 - i][x])
+
+        q.rotate(-R)  # 돌려
+
+        for i in range(w - 1):
+            arr[y][x + i] = q.popleft()
+        for i in range(h - 1):
+            arr[y + i][x + w - 1] = q.popleft()
+        for i in range(w - 1):
+            arr[y + h - 1][x + w - 1 - i] = q.popleft()
+        for i in range(h - 1):
+            arr[y + h - 1 - i][x] = q.popleft()
+
+        w, h = w - 2, h - 2
+        x, y = x + 1, y + 1
+        cnt = min(w, h) // 2
+
+
+N, M, R = map(int, input().split())
+arr = [list(map(int, input().split())) for _ in range(N)]
+rotate(R, N, M, arr)
+for i in arr:
+    print(*i)
