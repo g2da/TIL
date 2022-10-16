@@ -1,0 +1,28 @@
+import sys
+from itertools import combinations
+
+input = sys.stdin.readline
+N = int(input())
+N_arr = [i for i in range(1, N + 1)]
+arr = [list(map(int, input().split())) for _ in range(N)]
+team = list(combinations(N_arr, N // 2))
+
+ans = 100 * N * N
+
+for i in range(len(team) // 2):
+
+    s_team = 0
+    l_team = 0
+
+    s_power = list(combinations(team[i], 2))
+    l_power = list(combinations(team[-1 - i], 2))
+    for j in range(len(s_power)):
+        s_team += arr[s_power[j][0] - 1][s_power[j][1] - 1]
+        s_team += arr[s_power[j][1] - 1][s_power[j][0] - 1]
+    for j in range(len(l_power)):
+        l_team += arr[l_power[j][0] - 1][l_power[j][1] - 1]
+        l_team += arr[l_power[j][1] - 1][l_power[j][0] - 1]
+
+    ans = min(ans, abs(s_team - l_team))
+
+print(ans)
