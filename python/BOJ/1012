@@ -1,0 +1,37 @@
+import sys
+from collections import deque
+
+dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]
+
+
+def bfs(arr, x, y):
+    q = deque()
+    q.append((x, y))
+    arr[x][y] = 0
+    while q:
+        x, y = q.popleft()
+        for i in range(4):
+            nx, ny = dx[i] + x, dy[i] + y
+            if nx < 0 or nx >= N or ny < 0 or ny >= M: # x좌표, y좌표 범위 구분
+                continue
+            if arr[nx][ny] == 1:
+                arr[nx][ny] = 0
+                q.append((nx, ny))
+
+
+T = int(sys.stdin.readline().rstrip())
+for _ in range(T):
+    M, N, K = map(int, sys.stdin.readline().split())
+    arr = [[0] * M for _ in range(N)]
+    ans = 0
+
+    for _ in range(K):
+        y, x = map(int, sys.stdin.readline().split())
+        arr[x][y] = 1
+    for i in range(N):
+        for j in range(M):
+            if arr[i][j] == 1:
+                arr[i][j] == 0
+                bfs(arr, i, j)
+                ans += 1
+    print(ans)
