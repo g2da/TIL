@@ -1,0 +1,30 @@
+import sys
+from collections import deque
+
+T = int(sys.stdin.readline())
+dy, dx = [-1, 2, -2, - 1, 1, -2, 2, 1], [-2, -1, 1, 2, -2, -1, 1, 2]
+
+
+def bfs(x, y, gx, gy, visited):
+    q = deque()
+    q.append((y, x))
+    while q:
+        y, x = q.popleft()
+        if y == gy and x == gx:
+            return visited[y][x] - 1  # 방문처리시 1을 더해서 마지막 리턴 값에는 1을 빼기
+        for i in range(8):
+            ny, nx = dy[i] + y, dx[i] + x
+            if ny < 0 or nx < 0 or ny >= N or nx >= N:
+                continue
+            if not visited[ny][nx]:
+                visited[ny][nx] = visited[y][x] + 1
+                q.append((ny, nx))
+
+
+for _ in range(T):
+    N = int(sys.stdin.readline())
+    visited = [[0] * N for _ in range(N)]
+    y, x = map(int, sys.stdin.readline().split())
+    gy, gx = map(int, sys.stdin.readline().split())
+    visited[y][x] = 1
+    print(bfs(x, y, gx, gy, visited))
