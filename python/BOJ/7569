@@ -1,0 +1,38 @@
+import sys
+from collections import deque
+
+M, N, H = map(int, sys.stdin.readline().split())
+arr = [[list(map(int, sys.stdin.readline().split())) for _ in range(N)] for _ in range(H)]
+q = deque([])
+dy, dx, dz = [-1, 1, 0, 0, 0, 0], [0, 0, -1, 1, 0, 0], [0, 0, 0, 0, -1, 1]
+ans = 0
+
+for z in range(H):
+    for i in range(N):
+        for j in range(M):
+            if arr[z][i][j] == 1:
+                q.append((z, i, j))
+
+
+def bfs():
+    while q:
+        z, y, x = q.popleft()
+        for i in range(6):
+            ny, nx, nz = dy[i] + y, dx[i] + x, dz[i] + z
+            if ny < 0 or nx < 0 or nz < 0 or ny >= N or nx >= M or nz >= H:
+                continue
+            if arr[nz][ny][nx] == 0:
+                arr[nz][ny][nx] = arr[z][y][x] + 1
+                q.append((nz, ny, nx))
+
+
+bfs()
+
+for k in range(H):
+    for i in range(N):
+        if 0 in arr[k][i]:
+            print(-1)
+            exit()
+        else:
+            ans = max(ans, max(arr[k][i]))
+print(ans - 1)
