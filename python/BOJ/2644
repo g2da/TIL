@@ -6,20 +6,17 @@ a, b = map(int, sys.stdin.readline().split())
 M = int(sys.stdin.readline())
 arr = [[] for _ in range(N + 1)]
 visited = [0] * (N + 1)
-ans = [0] * (N + 1)
 
 
 def bfs(a):
     q = deque()
     q.append(a)
-    visited[a] = 1
     while q:
         v = q.popleft()
         for i in arr[v]:
             if not visited[i]:
-                visited[i] = 1
+                visited[i] = visited[v] + 1
                 q.append(i)
-                ans[i] = ans[v] + 1
 
 
 for i in range(M):
@@ -29,7 +26,7 @@ for i in range(M):
 
 bfs(a)
 
-if ans[b] > 0:
-    print(ans[b])
+if visited[b] > 0:
+    print(visited[b])
 else:
     print(-1)
