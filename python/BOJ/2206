@@ -1,0 +1,31 @@
+import sys
+from collections import deque
+
+N, M = map(int, sys.stdin.readline().split())
+arr = [list(map(int, sys.stdin.readline().strip())) for _ in range(N)]
+visited = [[[0] * 2 for _ in range(M)] for _ in range(N)]  # 1층(벽을 뚫지 않은 경우)과 2층(벽을 뚫은 경우)의 방문을 담음
+dy, dx = [-1, 1, 0, 0], [0, 0, -1, 1]
+
+
+def bfs(arr, y, x, z, visited):
+    q = deque()
+    q.append((y, x, z))
+    visited[y][x][z] = 1
+    while q:
+        y, x, z = q.popleft()
+        if y == N - 1 and x == M - 1:  # 끝까지 다 왔으면 결과 반환
+            return visited[y][x][z]
+        for i in range(4):
+            ny, nx = dy[i] + y, dx[i] + x
+            if ny < 0 or nx < 0 or ny >= N or nx >= M:
+                continue
+            if not visited[ny][nx][z] and arr[ny][nx] == 0:  # 벽을 부수지 않고 지나갈 때
+                visited[ny][nx][z] = visited[y][x][z] + 1
+                q.append((ny, nx, z))
+            elif arr[ny][nx] == 1 and z == 0:  # 벽을 마주함 & 아직 벽을 부수지 않았음 -> 벽을 부수고 지나갈 때
+                visited[ny][nx][1] = visited[y][x][z] + 1
+                q.append((ny, nx, 1))
+    return -1  # 목표까지 못 가면 -1 출력
+
+
+print(bfs(arr, 0, 0, 0, visited))
