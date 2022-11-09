@@ -1,0 +1,9 @@
+import sys
+
+S = sys.stdin.readline().strip()
+arr = [0] * 26
+
+for i in S:
+    arr[ord(i) - 97] += 1 # a의 유니코드는 97
+
+print(*arr)
