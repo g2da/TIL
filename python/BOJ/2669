@@ -1,6 +1,7 @@
 '''
 IM 검정 대비 필수 문제 20선 (1/20)
 '''
+
 import sys
 
 arr = [[0] * 101 for _ in range(101)]
