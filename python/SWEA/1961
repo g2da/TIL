@@ -1,0 +1,29 @@
+T = int(input())
+for test_case in range(1, T + 1):
+    N = int(input())
+    arr = [list(map(int, input().split())) for _ in range(N)]
+    ans_90 = [[0] * N for _ in range(N)]
+    ans_180 = [[0] * N for _ in range(N)]
+    ans_270 = [[0] * N for _ in range(N)]
+
+    for i in range(N):
+        for j in range(N):
+            ans_90[i][j] = arr[N - 1 - j][i]
+    for i in range(N):
+        for j in range(N):
+            ans_180[i][j] = ans_90[N - 1 - j][i]
+    for i in range(N):
+        for j in range(N):
+            ans_270[i][j] = ans_180[N - 1 - j][i]
+
+    print('#{}'.format(test_case))
+    for i in range(N):
+        for a in range(N):
+            print(ans_90[i][a], end='')
+        print(end=' ')
+        for b in range(N):
+            print(ans_180[i][b], end='')
+        print(end=' ')
+        for c in range(N):
+            print(ans_270[i][c], end='')
+        print()
