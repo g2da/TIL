@@ -1,0 +1,9 @@
+import sys
+
+x, y = map(int, sys.stdin.readline().split())
+month = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+rem = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+
+days = y if x == 1 else sum(month[:x]) + y # 멋쟁이 한 줄 코딩
+
+print(rem[days % 7])
